@@ -1,0 +1,7 @@
+Plaintext 
+node_modules 
+dist 
+build 
+.git 
+.env 
+Dockerfile
