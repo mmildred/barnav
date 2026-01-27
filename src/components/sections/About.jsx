@@ -16,6 +16,7 @@ const About = () => {
             diferente de aprender tecnología.
           </p>
         </div>
+        
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
