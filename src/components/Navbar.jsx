@@ -1,162 +1,78 @@
-//Navbar.jsx
-import React, { useState } from 'react';
-import { navbarLinks } from '../data/data';
-import { CiSearch } from "react-icons/ci";
-import { ImBooks } from "react-icons/im";
-import { MdMenu } from "react-icons/md";
-import { PiShoppingCartLight } from "react-icons/pi";
-import MenuResponsivo from './MenuResponsivo';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { navbarLinks } from '../data/data'
+import { ImBooks } from 'react-icons/im'
+import { MdMenu } from 'react-icons/md'
+import MenuResponsivo from './MenuResponsivo'
 
 const Navbar = () => {
-  const [abierto, setAbierto] = useState(false);
-  const [showBanner, setShowBanner] = useState(true);
-
+  const [abierto, setAbierto] = useState(false)
   return (
     <>
-      {/* BANNER */}
-{showBanner && (
-  <div style={{
-    background: 'linear-gradient(to right, var(--color-primary), var(--color-secondary))',
-    color: 'white',
-    padding: '10px',
-    textAlign: 'center',
-    position: 'relative'
-  }}>
-    <span style={{ fontWeight: 'bold' }}>
-      ¡OFERTA ESPECIAL! 20% descuento en todos los cursos
-    </span>
-    <button 
-      onClick={() => setShowBanner(false)}
-      style={{
-        position: 'absolute',
-        right: '20px',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        background: 'transparent',
-        border: 'none',
-        color: 'white',
-        fontSize: '20px',
-        cursor: 'pointer'
-      }}
-    >
-      ×
-    </button>
-  </div>
-)}
-
-      <nav>
-        <div className="container flex justify-between font-bold items-center py-8">
-          
+      <nav className="border-b border-gray-200">
+        <div className="container flex justify-between font-bold items-center py-6">
           {/* Logo con animación */}
-          <div className="text-2xl flex items-center gap-2 uppercase">
-            <div style={{
-              animation: 'float 3s ease-in-out infinite'
-            }}>
-              <ImBooks /> 
+          <div className="text-2xl flex items-center gap-2">
+            <div style={{ animation: 'float 3s ease-in-out infinite' }}>
+              <ImBooks className="text-primary" />
             </div>
-            <p>El sitio de</p>
-            <p 
-              className='text-secondary'
-              style={{
-                animation: 'colorChange 4s infinite alternate'
-              }}
-            >
-              Mld
-            </p>
-            <p>Cursos</p>
+            <div className="flex flex-col">
+              <span className="text-sm font-normal text-gray-500">El sitio de</span>
+              <span className="text-xl font-bold text-secondary leading-tight">
+                MLD Cursos
+              </span>
+            </div>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <ul className="flex items-center gap-7 text-gray-600">
+            <ul className="flex items-center gap-8 text-gray-700">
               {navbarLinks.map((item) => (
                 <li key={item.id}>
-                  <a
-                    href={item.url}
-                    className="inline-block py-1 px-3 hover:text-primary"
+                  <Link
+                    to={item.url}
+                    className="inline-block py-2 px-1 text-gray-600 hover:text-primary font-medium transition-colors border-b-2 border-transparent hover:border-primary"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
-          
-          {/* Action Icons con animaciones */}
-          <div className="flex items-center gap-4">
-            
-            {/* Search Button con animación */}
-            <button 
-              className="text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-300"
-              aria-label="Buscar"
-              style={{
-                transition: 'all 0.3s ease',
-                transform: 'scale(1)'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1) rotate(5deg)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
-            >
-              <CiSearch />
-            </button>
-            
-            {/* Cart Button con animación */}
-            <button 
-              className="text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-300"
-              aria-label="Carrito de compras"
-              style={{
-                transition: 'all 0.3s ease',
-                position: 'relative'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <PiShoppingCartLight />
-              {/* Badge animado */}
-              <span style={{
-                position: 'absolute',
-                top: '-5px',
-                right: '-5px',
-                background: '#EF4444',
-                color: 'white',
-                fontSize: '12px',
-                width: '18px',
-                height: '18px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                animation: 'pulse 2s infinite'
-              }}>
-                3
-              </span>
-            </button>
-            
-            {/* Login Button (Desktop only) */}
-            <button 
-              className="hover:bg-primary font-semibold rounded-md text-white bg-secondary px-4 py-2 duration-300 border-primary hidden md:block"
-            >
-              Ingresar
-            </button>
+
+          {/* Botón Ingresar formal (Desktop) */}
+          <div className="hidden md:flex items-center gap-4">
+            <Link to="/login">
+              <button className="bg-linear-to-r from-gray-800 to-gray-900 text-white font-semibold py-3 px-8 rounded-lg hover:from-gray-900 hover:to-gray-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                </svg>
+                Login
+              </button>
+            </Link>
           </div>
-          
+
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button 
+          <div className="md:hidden flex items-center gap-4">
+            <Link to="/login" className="md:hidden">
+              <button className="bg-gray-800 text-white font-semibold py-2 px-4 rounded-md text-sm">
+                Ingresar
+              </button>
+            </Link>
+            <button
               onClick={() => setAbierto(!abierto)}
-              className="text-4xl p-2"
+              className="text-3xl p-2 text-gray-700"
               aria-label="Menú móvil"
               aria-expanded={abierto}
             >
               <MdMenu />
             </button>
           </div>
-          
         </div>
-        
+
         {/* Mobile Menu Content */}
         <MenuResponsivo open={abierto} navbarLinks={navbarLinks} />
-        
-        {/* Estilos CSS para animaciones */}
+
         <style>{`
           @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -167,15 +83,10 @@ const Navbar = () => {
             0% { color: #4F46E5; }
             100% { color: #EC4899; }
           }
-          
-          @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-          }
         `}</style>
       </nav>
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
