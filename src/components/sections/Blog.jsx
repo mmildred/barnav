@@ -49,7 +49,7 @@ const Blog = () => {
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
             >
               {/* Imagen del post (placeholder) */}
-              <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+              <div className="h-48 bg-linear-to-r from-blue-500 to-purple-500"></div>
               
               {/* Contenido */}
               <div className="p-6">
