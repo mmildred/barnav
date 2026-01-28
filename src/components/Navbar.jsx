@@ -1,90 +1,139 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { navbarLinks } from '../data/data'
-import { ImBooks } from 'react-icons/im'
-import { MdMenu } from 'react-icons/md'
 import MenuResponsivo from './MenuResponsivo'
 
 const Navbar = () => {
   const [abierto, setAbierto] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  // Detectar scroll
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const togglePlay = () => setIsPlaying(prev => !prev)
+
   return (
     <>
-      <nav className="border-b border-gray-200">
-        <div className="container flex justify-between font-bold items-center py-6">
-          {/* Logo con animación */}
-          <div className="text-2xl flex items-center gap-2">
-            <div style={{ animation: 'float 3s ease-in-out infinite' }}>
-              <ImBooks className="text-primary" />
+      <nav
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? 'bg-gray-900/95 backdrop-blur-md border-b border-gray-800 shadow-xl'
+            : 'bg-linear-to-r from-gray-900 to-black border-b border-gray-800'
+        }`}
+      >
+        <div className="container flex justify-between items-center py-4 px-4 md:px-6">
+
+          {/* LOGO */}
+          <div className="flex items-center gap-3 cursor-pointer">
+            <div
+              onClick={togglePlay}
+              className={`w-10 h-10 rounded-full flex items-center justify-center text-white bg-linear-to-r from-purple-600 to-blue-500 ${
+                isPlaying ? 'animate-pulse-slow' : ''
+              }`}
+            >
+              ♪
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-normal text-gray-500">El sitio de</span>
-              <span className="text-xl font-bold text-secondary leading-tight">
-                MLD Cursos
+            <div>
+              <span className="block text-xs text-gray-400 uppercase">indie</span>
+              <span className="block text-xl font-bold bg-linear-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                SONIC.WAVES
               </span>
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <ul className="flex items-center gap-8 text-gray-700">
-              {navbarLinks.map((item) => (
-                <li key={item.id}>
-                  <Link
-                    to={item.url}
-                    className="inline-block py-2 px-1 text-gray-600 hover:text-primary font-medium transition-colors border-b-2 border-transparent hover:border-primary"
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* DESKTOP LINKS */}
+          <ul className="hidden md:flex items-center gap-6">
+            {navbarLinks.map(item => (
+              <li key={item.id}>
+                <Link
+                  to={item.url}
+                  className="text-gray-300 hover:text-white transition relative group"
+                >
+                  {item.title}
+                  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-linear-to-r from-purple-500 to-blue-400 group-hover:w-full transition-all"></span>
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-          {/* Botón Ingresar formal (Desktop) */}
+          {/* DESKTOP ACTIONS */}
           <div className="hidden md:flex items-center gap-4">
+            <span className="text-sm text-gray-400">
+              {isPlaying ? 'Now Playing' : 'Paused'}
+            </span>
+
+            <button
+              onClick={togglePlay}
+              className="w-10 h-10 rounded-full bg-linear-to-r from-purple-600 to-blue-500 text-white hover:scale-105 transition"
+            >
+              {isPlaying ? '❚❚' : '▶'}
+            </button>
+
             <Link to="/login">
-              <button className="bg-linear-to-r from-gray-800 to-gray-900 text-white font-semibold py-3 px-8 rounded-lg hover:from-gray-900 hover:to-gray-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                </svg>
-                Login
+              <button className="px-5 py-2 rounded-lg border border-gray-700 text-white hover:border-purple-500 transition">
+                Artista
               </button>
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center gap-4">
-            <Link to="/login" className="md:hidden">
-              <button className="bg-gray-800 text-white font-semibold py-2 px-4 rounded-md text-sm">
-                Ingresar
-              </button>
-            </Link>
+          {/* MOBILE */}
+          <div className="md:hidden flex items-center gap-3">
             <button
-              onClick={() => setAbierto(!abierto)}
-              className="text-3xl p-2 text-gray-700"
-              aria-label="Menú móvil"
+              onClick={togglePlay}
+              className="w-8 h-8 rounded-full bg-linear-to-r from-purple-600 to-blue-500 text-white"
+            >
+              {isPlaying ? '❚❚' : '▶'}
+            </button>
+
+            <button
+              onClick={() => setAbierto(prev => !prev)}
+              className="text-2xl text-gray-300"
               aria-expanded={abierto}
             >
-              <MdMenu />
+              {abierto ? '✕' : '☰'}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu Content */}
-        <MenuResponsivo open={abierto} navbarLinks={navbarLinks} />
+        {/* MENÚ RESPONSIVO */}
+        <MenuResponsivo
+          open={abierto}
+          setOpen={setAbierto}
+          navbarLinks={navbarLinks}
+        />
+
+        {/* BARRA DE REPRODUCCIÓN */}
+        {isPlaying && (
+          <div className="h-1 bg-linear-to-r from-purple-600 via-blue-500 to-purple-600 animate-slide-right"></div>
+        )}
 
         <style>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+          @keyframes pulse-slow {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
           }
-          
-          @keyframes colorChange {
-            0% { color: #4F46E5; }
-            100% { color: #EC4899; }
+          .animate-pulse-slow {
+            animation: pulse-slow 2s infinite;
+          }
+
+          @keyframes slide-right {
+            from { background-position: 0% }
+            to { background-position: 200% }
+          }
+          .animate-slide-right {
+            background-size: 200% 100%;
+            animation: slide-right 3s linear infinite;
           }
         `}</style>
       </nav>
+
+      {/* Spacer */}
+      <div className="h-20"></div>
     </>
   )
 }

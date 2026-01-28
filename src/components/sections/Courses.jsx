@@ -1,64 +1,67 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Cursos = () => {
+  const cursos = [
+    {
+      id: 1,
+      nombre: 'Luna Rodríguez',
+      genero: 'Indie Folk',
+      ubicacion: 'Ciudad de México',
+      seguidores: '15.2K',
+      canciones: 24
+    },
+    {
+      id: 2,
+      nombre: 'The Midnight Waves',
+      genero: 'Synthwave',
+      ubicacion: 'Los Ángeles',
+      seguidores: '32.7K',
+      canciones: 18
+    },
+    {
+      id: 3,
+      nombre: 'Cielo Azul',
+      genero: 'Dream Pop',
+      ubicacion: 'Buenos Aires',
+      seguidores: '28.4K',
+      canciones: 31
+    }
+  ]
+
   return (
-    <section id="cursos" className="py-24 bg-linear-to-b from-white to-orange-50">
+    <section id="cursos" className="py-20 bg-black">
       <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center text-white mb-12">
+          Artistas Destacados
+        </h2>
 
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-            Nuestros Cursos
-          </h2>
-          <p className="text-gray-600 max-w-xl mx-auto">
-            Cursos diseñados para aprender desde cero y llevar tus habilidades
-            al siguiente nivel
-          </p>
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {cursos.map((curso) => (
+            <div
+              key={curso.id}
+              className="bg-gray-900 border border-gray-800 rounded-xl p-6 text-gray-300"
+            >
+              <h3 className="text-xl font-semibold text-white mb-2">
+                {curso.nombre}
+              </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <p className="text-sm text-gray-400">{curso.genero}</p>
+              <p className="text-sm text-gray-400">{curso.ubicacion}</p>
 
-          <div className="p-8 rounded-2xl bg-white shadow-lg hover:shadow-2xl hover:-translate-y-2 transition">
-            <h3 className="text-xl font-bold mb-3 text-primary">
-              React desde Cero
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Aprende a crear interfaces modernas con componentes, hooks y buenas prácticas.
-            </p>
-            <Link to="/cursos/react">
-              <button className="text-primary font-semibold hover:underline">
-                Ver curso →
-              </button>
-            </Link>
-          </div>
+              <div className="mt-4 text-sm">
+                <p>{curso.canciones} canciones</p>
+                <p>{curso.seguidores} seguidores</p>
+              </div>
 
-          <div className="p-8 rounded-2xl bg-white shadow-lg hover:shadow-2xl hover:-translate-y-2 transition">
-            <h3 className="text-xl font-bold mb-3 text-primary">
-              Tailwind CSS
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Diseña interfaces rápidas, limpias y responsivas sin escribir CSS tradicional.
-            </p>
-            <Link to="/cursos/tailwind">
-              <button className="text-primary font-semibold hover:underline">
-                Ver curso →
-              </button>
-            </Link>
-          </div>
-
-          <div className="p-8 rounded-2xl bg-white shadow-lg hover:shadow-2xl hover:-translate-y-2 transition">
-            <h3 className="text-xl font-bold mb-3 text-primary">
-              Framer Motion
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Agrega animaciones fluidas y profesionales a tus proyectos en React.
-            </p>
-            <Link to="/cursos/framer">
-              <button className="text-primary font-semibold hover:underline">
-                Ver curso →
-              </button>
-            </Link>
-          </div>
-
+              <Link
+                to={`/cursos/${curso.id}`}
+                className="inline-block mt-6 text-sm font-medium text-purple-400 hover:text-purple-300"
+              >
+                Ver perfil
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </section>

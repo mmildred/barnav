@@ -1,96 +1,141 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Contacto = () => {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    mensaje: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      alert('Mensaje enviado. Pronto nos pondremos en contacto.');
+      setFormData({ nombre: '', email: '', mensaje: '' });
+    }, 1500);
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
-    <section id="contacto" className="py-24 bg-gray-50">
+    <section id="contacto" className="py-24 bg-black">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-            Contáctanos
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Conecta con la Comunidad
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            ¿Tienes preguntas o necesitas más información? ¡Estamos aquí para ayudarte!
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            ¿Tienes preguntas, propuestas o quieres colaborar? Escríbenos.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Información de contacto */}
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-primary">
-                Información de Contacto
-              </h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white"></div>
-                  <div>
-                    <h4 className="font-semibold">Email</h4>
-                    <p className="text-gray-600">info@mldcursos.com</p>
-                  </div>
-                </div>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Información de contacto */}
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-white mb-8">
+              Información de Contacto
+            </h3>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white"></div>
-                  <div>
-                    <h4 className="font-semibold">Teléfono</h4>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
-                  </div>
-                </div>
+            <div className="space-y-6 text-gray-400">
+              <div>
+                <h4 className="font-semibold text-gray-200">Correo electrónico</h4>
+                <p>artistas@sonicwaves.com</p>
+                <p>soporte@sonicwaves.com</p>
+              </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white"></div>
-                  <div>
-                    <h4 className="font-semibold">Dirección</h4>
-                    <p className="text-gray-600">
-                      Calle Principal #123<br />
-                      Ciudad, País
-                    </p>
-                  </div>
-                </div>
+              <div>
+                <h4 className="font-semibold text-gray-200">Teléfono</h4>
+                <p>+1 (555) 123-4567</p>
+                <p className="text-sm text-gray-500">Lunes a Viernes, 9:00 - 18:00</p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-200">Dirección</h4>
+                <p>
+                  Av. Musical #456<br />
+                  Brooklyn, NY 11201<br />
+                  Estados Unidos
+                </p>
               </div>
             </div>
+          </div>
 
-            {/* Formulario de contacto */}
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold mb-6">Envíanos un mensaje</h3>
-              
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Nombre</label>
-                  <input 
-                    type="text" 
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Tu nombre"
-                  />
-                </div>
+          {/* Formulario */}
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-white mb-6">
+              Envíanos un mensaje
+            </h3>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <input 
-                    type="email" 
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="tu@email.com"
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm mb-2 text-gray-300">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  className="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl text-white"
+                  required
+                />
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Mensaje</label>
-                  <textarea 
-                    rows="4"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="¿En qué podemos ayudarte?"
-                  ></textarea>
-                </div>
+              <div>
+                <label className="block text-sm mb-2 text-gray-300">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl text-white"
+                  required
+                />
+              </div>
 
-                <button 
-                  type="submit"
-                  className="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-opacity-90 transition"
-                >
-                  Enviar Mensaje
-                </button>
-              </form>
-            </div>
+              <div>
+                <label className="block text-sm mb-2 text-gray-300">
+                  Mensaje
+                </label>
+                <textarea
+                  name="mensaje"
+                  rows="5"
+                  value={formData.mensaje}
+                  onChange={handleChange}
+                  className="w-full p-4 bg-gray-800 border border-gray-700 rounded-xl text-white resize-none"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full py-4 rounded-xl font-semibold text-white transition ${
+                  isSubmitting
+                    ? 'bg-gray-600 cursor-not-allowed'
+                    : 'bg-purple-600 hover:bg-purple-700'
+                }`}
+              >
+                {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+              </button>
+            </form>
+
+            <p className="text-center text-gray-500 text-sm mt-6">
+              Te responderemos en un máximo de 48 horas hábiles.
+            </p>
           </div>
         </div>
       </div>

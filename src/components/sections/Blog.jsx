@@ -4,102 +4,113 @@ const Blog = () => {
   const blogPosts = [
     {
       id: 1,
-      title: 'Cómo aprender React en 2024',
-      excerpt: 'Guía completa para dominar React con las mejores prácticas actuales.',
+      title: 'El auge del indie en Latinoamérica 2024',
+      excerpt:
+        'Descubre cómo la escena indie latinoamericana está conquistando el mundo con sonidos frescos y auténticos.',
       date: '15 Ene 2024',
-      category: 'React',
-      readTime: '5 min'
+      category: 'Tendencias',
+      readTime: '6 min',
+      linear: 'from-purple-600 to-pink-500'
     },
     {
       id: 2,
-      title: 'Tailwind CSS vs CSS tradicional',
-      excerpt: 'Comparativa detallada de ambas metodologías y cuándo usar cada una.',
-      date: '10 Ene 2024',
-      category: 'CSS',
-      readTime: '7 min'
+      title: 'Home Studio: Guía para grabaciones profesionales',
+      excerpt:
+        'Todo lo que necesitas para montar tu estudio casero sin gastar una fortuna.',
+      date: '12 Ene 2024',
+      category: 'Producción',
+      readTime: '8 min',
+      linear: 'from-blue-500 to-cyan-400'
     },
     {
       id: 3,
-      title: 'Introducción a TypeScript',
-      excerpt: 'Por qué TypeScript se ha vuelto esencial en el desarrollo web moderno.',
+      title: 'De bandas de garaje a streams virales',
+      excerpt:
+        'Historias de éxito de artistas que empezaron desde cero y hoy suenan en todo el mundo.',
+      date: '8 Ene 2024',
+      category: 'Historias',
+      readTime: '7 min',
+      linear: 'from-orange-500 to-yellow-400'
+    },
+    {
+      id: 4,
+      title: 'Mix y mastering para principiantes',
+      excerpt:
+        'Conceptos básicos que todo artista indie debe conocer sobre post-producción.',
       date: '5 Ene 2024',
-      category: 'TypeScript',
-      readTime: '8 min'
+      category: 'Tutorial',
+      readTime: '9 min',
+      linear: 'from-green-500 to-emerald-400'
+    },
+    {
+      id: 5,
+      title: 'Marketing musical en la era digital',
+      excerpt:
+        'Estrategias efectivas para promover tu música sin presupuesto millonario.',
+      date: '3 Ene 2024',
+      category: 'Marketing',
+      readTime: '5 min',
+      linear: 'from-red-500 to-pink-400'
+    },
+    {
+      id: 6,
+      title: 'Vinilos vs Streaming: La nueva coexistencia',
+      excerpt:
+        'Cómo el formato físico regresa con fuerza en la era digital.',
+      date: '1 Ene 2024',
+      category: 'Cultura',
+      readTime: '7 min',
+      linear: 'from-indigo-500 to-purple-400'
     }
   ];
 
   return (
-    <section id="blog" className="py-24 bg-linear-to-b from-white to-blue-50">
+    <section id="blog" className="py-24 bg-black">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-            Blog & Artículos
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Blog Musical
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Aprende con nuestros artículos, tutoriales y noticias sobre desarrollo web
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Artículos, guías y tendencias para artistas indie.
           </p>
         </div>
 
-        {/* Grid de artículos */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Posts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {blogPosts.map((post) => (
-            <div 
+            <article
               key={post.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
+              className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-purple-500 transition"
             >
-              {/* Imagen del post (placeholder) */}
-              <div className="h-48 bg-linear-to-r from-blue-500 to-purple-500"></div>
-              
-              {/* Contenido */}
+              <div className={`h-2 bg-linear-to-r ${post.linear}`} />
+
               <div className="p-6">
-                {/* Categoría y fecha */}
-                <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 bg-blue-100 text-blue-600 text-sm font-semibold rounded-full">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm text-gray-300 bg-gray-800 px-3 py-1 rounded-full">
                     {post.category}
                   </span>
-                  <span className="text-gray-500 text-sm">{post.date}</span>
+
+                  <span className="text-sm text-gray-400">
+                    {post.date} · {post.readTime}
+                  </span>
                 </div>
 
-                {/* Título */}
-                <h3 className="text-xl font-bold mb-3 hover:text-primary transition">
+                <h3 className="text-xl font-semibold text-white mb-3">
                   {post.title}
                 </h3>
 
-                {/* Extracto */}
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-400 mb-6">
                   {post.excerpt}
                 </p>
 
-                {/* Footer del post */}
-                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                  <span className="text-gray-500 text-sm">
-                    {post.readTime} de lectura
-                  </span>
-                  <button className="text-primary font-semibold hover:underline">
-                    Leer más →
-                  </button>
-                </div>
+                <button className="text-purple-400 hover:text-white transition">
+                  Leer artículo →
+                </button>
               </div>
-            </div>
+            </article>
           ))}
-        </div>
-
-        {/* Call to action */}
-        <div className="text-center mt-16">
-          <p className="text-gray-600 mb-6">
-            ¿Quieres recibir nuestros artículos directamente en tu email?
-          </p>
-          <div className="max-w-md mx-auto flex gap-2">
-            <input 
-              type="email" 
-              placeholder="Tu email"
-              className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"
-            />
-            <button className="bg-primary text-white font-semibold px-6 rounded-lg hover:bg-opacity-90 transition">
-              Suscribirse
-            </button>
-          </div>
         </div>
       </div>
     </section>
