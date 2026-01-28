@@ -1,181 +1,141 @@
-//Navbar.jsx
-import React, { useState } from 'react';
-import { navbarLinks } from '../data/data';
-import { CiSearch } from "react-icons/ci";
-import { ImBooks } from "react-icons/im";
-import { MdMenu } from "react-icons/md";
-import { PiShoppingCartLight } from "react-icons/pi";
-import MenuResponsivo from './MenuResponsivo';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { navbarLinks } from '../data/data'
+import MenuResponsivo from './MenuResponsivo'
 
 const Navbar = () => {
-  const [abierto, setAbierto] = useState(false);
-  const [showBanner, setShowBanner] = useState(true);
+  const [abierto, setAbierto] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  // Detectar scroll
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const togglePlay = () => setIsPlaying(prev => !prev)
 
   return (
     <>
-      {/* BANNER */}
-{showBanner && (
-  <div style={{
-    background: 'linear-gradient(to right, var(--color-primary), var(--color-secondary))',
-    color: 'white',
-    padding: '10px',
-    textAlign: 'center',
-    position: 'relative'
-  }}>
-    <span style={{ fontWeight: 'bold' }}>
-      ¡OFERTA ESPECIAL! 20% descuento en todos los cursos
-    </span>
-    <button 
-      onClick={() => setShowBanner(false)}
-      style={{
-        position: 'absolute',
-        right: '20px',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        background: 'transparent',
-        border: 'none',
-        color: 'white',
-        fontSize: '20px',
-        cursor: 'pointer'
-      }}
-    >
-      ×
-    </button>
-  </div>
-)}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? 'bg-gray-900/95 backdrop-blur-md border-b border-gray-800 shadow-xl'
+            : 'bg-linear-to-r from-gray-900 to-black border-b border-gray-800'
+        }`}
+      >
+        <div className="container flex justify-between items-center py-4 px-4 md:px-6">
 
-      <nav>
-        <div className="container flex justify-between font-bold items-center py-8">
-          
-          {/* Logo con animación */}
-          <div className="text-2xl flex items-center gap-2 uppercase">
-            <div style={{
-              animation: 'float 3s ease-in-out infinite'
-            }}>
-              <ImBooks /> 
+          {/* LOGO */}
+          <div className="flex items-center gap-3 cursor-pointer">
+            <div
+              onClick={togglePlay}
+              className={`w-10 h-10 rounded-full flex items-center justify-center text-white bg-linear-to-r from-purple-600 to-blue-500 ${
+                isPlaying ? 'animate-pulse-slow' : ''
+              }`}
+            >
+              ♪
             </div>
-            <p>El sitio de</p>
-            <p 
-              className='text-secondary'
-              style={{
-                animation: 'colorChange 4s infinite alternate'
-              }}
-            >
-              Mld
-            </p>
-            <p>Cursos</p>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <ul className="flex items-center gap-7 text-gray-600">
-              {navbarLinks.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={item.url}
-                    className="inline-block py-1 px-3 hover:text-primary"
-                  >
-                    {item.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {/* Action Icons con animaciones */}
-          <div className="flex items-center gap-4">
-            
-            {/* Search Button con animación */}
-            <button 
-              className="text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-300"
-              aria-label="Buscar"
-              style={{
-                transition: 'all 0.3s ease',
-                transform: 'scale(1)'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1) rotate(5deg)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
-            >
-              <CiSearch />
-            </button>
-            
-            {/* Cart Button con animación */}
-            <button 
-              className="text-2xl hover:bg-primary hover:text-white rounded-full p-2 duration-300"
-              aria-label="Carrito de compras"
-              style={{
-                transition: 'all 0.3s ease',
-                position: 'relative'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <PiShoppingCartLight />
-              {/* Badge animado */}
-              <span style={{
-                position: 'absolute',
-                top: '-5px',
-                right: '-5px',
-                background: '#EF4444',
-                color: 'white',
-                fontSize: '12px',
-                width: '18px',
-                height: '18px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                animation: 'pulse 2s infinite'
-              }}>
-                3
+            <div>
+              <span className="block text-xs text-gray-400 uppercase">indie</span>
+              <span className="block text-xl font-bold bg-linear-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                SONIC.WAVES
               </span>
-            </button>
-            
-            {/* Login Button (Desktop only) */}
-            <button 
-              className="hover:bg-primary font-semibold rounded-md text-white bg-secondary px-4 py-2 duration-300 border-primary hidden md:block"
-            >
-              Ingresar
-            </button>
+            </div>
           </div>
-          
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button 
-              onClick={() => setAbierto(!abierto)}
-              className="text-4xl p-2"
-              aria-label="Menú móvil"
+
+          {/* DESKTOP LINKS */}
+          <ul className="hidden md:flex items-center gap-6">
+            {navbarLinks.map(item => (
+              <li key={item.id}>
+                <Link
+                  to={item.url}
+                  className="text-gray-300 hover:text-white transition relative group"
+                >
+                  {item.title}
+                  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-linear-to-r from-purple-500 to-blue-400 group-hover:w-full transition-all"></span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* DESKTOP ACTIONS */}
+          <div className="hidden md:flex items-center gap-4">
+            <span className="text-sm text-gray-400">
+              {isPlaying ? 'Now Playing' : 'Paused'}
+            </span>
+
+            <button
+              onClick={togglePlay}
+              className="w-10 h-10 rounded-full bg-linear-to-r from-purple-600 to-blue-500 text-white hover:scale-105 transition"
+            >
+              {isPlaying ? '❚❚' : '▶'}
+            </button>
+
+            <Link to="/login">
+              <button className="px-5 py-2 rounded-lg border border-gray-700 text-white hover:border-purple-500 transition">
+                Artista
+              </button>
+            </Link>
+          </div>
+
+          {/* MOBILE */}
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={togglePlay}
+              className="w-8 h-8 rounded-full bg-linear-to-r from-purple-600 to-blue-500 text-white"
+            >
+              {isPlaying ? '❚❚' : '▶'}
+            </button>
+
+            <button
+              onClick={() => setAbierto(prev => !prev)}
+              className="text-2xl text-gray-300"
               aria-expanded={abierto}
             >
-              <MdMenu />
+              {abierto ? '✕' : '☰'}
             </button>
           </div>
-          
         </div>
-        
-        {/* Mobile Menu Content */}
-        <MenuResponsivo open={abierto} navbarLinks={navbarLinks} />
-        
-        {/* Estilos CSS para animaciones */}
+
+        {/* MENÚ RESPONSIVO */}
+        <MenuResponsivo
+          open={abierto}
+          setOpen={setAbierto}
+          navbarLinks={navbarLinks}
+        />
+
+        {/* BARRA DE REPRODUCCIÓN */}
+        {isPlaying && (
+          <div className="h-1 bg-linear-to-r from-purple-600 via-blue-500 to-purple-600 animate-slide-right"></div>
+        )}
+
         <style>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+          @keyframes pulse-slow {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
           }
-          
-          @keyframes colorChange {
-            0% { color: #4F46E5; }
-            100% { color: #EC4899; }
+          .animate-pulse-slow {
+            animation: pulse-slow 2s infinite;
           }
-          
-          @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+          @keyframes slide-right {
+            from { background-position: 0% }
+            to { background-position: 200% }
+          }
+          .animate-slide-right {
+            background-size: 200% 100%;
+            animation: slide-right 3s linear infinite;
           }
         `}</style>
       </nav>
-    </>
-  );
-};
 
-export default Navbar;
+      {/* Spacer */}
+      <div className="h-20"></div>
+    </>
+  )
+}
+
+export default Navbar
